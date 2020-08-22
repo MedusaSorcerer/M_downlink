@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # _*_ coding: UTF-8 _*_
-import sys
-
 from flask import Flask, render_template
 
-from config import *
+try:
+    from .config import *
+except ImportError:
+    from config import *
 
 app = Flask(__name__, template_folder=DOWNLOAD, static_folder=DOWNLOAD, static_url_path="")
 

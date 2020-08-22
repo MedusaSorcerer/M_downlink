@@ -12,7 +12,10 @@ from bs4 import BeautifulSoup
 from pynput.keyboard import Listener
 from selenium import webdriver
 
-from config import *
+try:
+    from .config import *
+except ImportError:
+    from config import *
 
 F = False
 N = NUMBER
@@ -56,7 +59,7 @@ def download():
             ...
 
     global N, driver
-    driver = webdriver.Chrome('chromedriver.exe')
+    driver = webdriver.Chrome('chromedriver.exe', options=ops)
     for i in links:
         if not i: continue
         driver.get(i)
@@ -273,9 +276,11 @@ if __name__ == '__main__':
         -f 查找指定索引位置的链接数据，或者将数据作为下载输入内容
         -n 指定下载目录名称的起始数字
     """
+    ops = webdriver.ChromeOptions()
+    ops.add_argument('--ignore-certificate-errors')
     argv = sys.argv
     if '-t' in argv[1:]:
-        t_driver = webdriver.Chrome('chromedriver.exe')
+        t_driver = webdriver.Chrome('chromedriver.exe', options=ops)
         t_driver.maximize_window()
         t_driver.get('https://www.baidu.com')
         time.sleep(2)
